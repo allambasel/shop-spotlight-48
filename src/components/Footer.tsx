@@ -32,15 +32,37 @@ const Footer = () => {
                   All Stores
                 </Link>
               </li>
+              <li>
+                <Link to="/about" className="text-muted-foreground transition-colors hover:text-foreground">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-muted-foreground transition-colors hover:text-foreground">
+                  Contact Us
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="mb-4 font-semibold">Categories</h3>
+            <h3 className="mb-4 font-semibold">Legal</h3>
             <ul className="space-y-2 text-sm">
-              <li className="text-muted-foreground">Electronics</li>
-              <li className="text-muted-foreground">Fashion</li>
-              <li className="text-muted-foreground">Home & Garden</li>
+              <li>
+                <Link to="/privacy" className="text-muted-foreground transition-colors hover:text-foreground">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms" className="text-muted-foreground transition-colors hover:text-foreground">
+                  Terms & Conditions
+                </Link>
+              </li>
+              <li>
+                <Link to="/login" className="text-muted-foreground transition-colors hover:text-foreground">
+                  Store Login
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
