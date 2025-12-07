@@ -1,12 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StoreCard from "@/components/StoreCard";
 import { Button } from "@/components/ui/button";
 import { stores } from "@/data/mockData";
-import { ArrowRight, TrendingUp, Store, ShoppingBag, Rocket, BarChart3, Users, Globe, Megaphone, Shield } from "lucide-react";
+import { ArrowRight, TrendingUp, Store, ShoppingBag, Rocket, BarChart3, Users, Globe, Megaphone, Shield, Laptop, Shirt, Home, Sparkles } from "lucide-react";
+
+const categories = [
+  { name: "Electronics", icon: Laptop, color: "from-blue-500 to-cyan-500" },
+  { name: "Fashion", icon: Shirt, color: "from-pink-500 to-rose-500" },
+  { name: "Home & Garden", icon: Home, color: "from-green-500 to-emerald-500" },
+];
 
 const Index = () => {
+  const navigate = useNavigate();
   const featuredStores = stores.slice(0, 3);
 
   const benefits = [
@@ -82,8 +89,48 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Stores Section */}
+      {/* Categories Section */}
       <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="mb-10 text-center">
+            <h2 className="mb-3 text-3xl font-bold md:text-4xl">Browse by Category</h2>
+            <p className="text-lg text-muted-foreground">
+              Find stores that match your interests
+            </p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            {categories.map((category) => (
+              <button
+                key={category.name}
+                onClick={() => navigate(`/stores?category=${encodeURIComponent(category.name)}`)}
+                className="group relative overflow-hidden rounded-2xl p-8 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-90`} />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                <div className="relative z-10 flex flex-col items-start gap-4">
+                  <div className="rounded-xl bg-white/20 p-3 backdrop-blur-sm">
+                    <category.icon className="h-8 w-8 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-white">{category.name}</h3>
+                    <p className="mt-1 text-white/80">
+                      {stores.filter(s => s.category === category.name).length} stores
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 text-white/90 group-hover:translate-x-2 transition-transform">
+                    <span className="text-sm font-medium">Explore</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Stores Section */}
+      <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="mb-10 text-center">
             <h2 className="mb-3 text-3xl font-bold md:text-4xl">Featured Stores</h2>
