@@ -11,6 +11,7 @@ import JoinAsStore from "./pages/JoinAsStore";
 import DashboardLogin from "./pages/DashboardLogin";
 import Dashboard from "./pages/dashboard/Dashboard";
 import DashboardProducts from "./pages/dashboard/DashboardProducts";
+import DashboardBranches from "./pages/dashboard/DashboardBranches";
 import DashboardBanners from "./pages/dashboard/DashboardBanners";
 import DashboardProfile from "./pages/dashboard/DashboardProfile";
 import AboutUs from "./pages/AboutUs";
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/login" element={<DashboardLogin />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/products" element={<DashboardProducts />} />
+          <Route path="/dashboard/branches" element={<DashboardBranches />} />
           <Route path="/dashboard/banners" element={<DashboardBanners />} />
           <Route path="/dashboard/profile" element={<DashboardProfile />} />
           <Route path="/about" element={<AboutUs />} />

@@ -1,4 +1,4 @@
-import { Store, Product, Offer } from "@/types";
+import { Store, Product, Offer, Branch } from "@/types";
 
 export const stores: Store[] = [
   {
@@ -166,5 +166,75 @@ export const offers: Offer[] = [
     description: "Save big on furniture and decor",
     discount: 20,
     validUntil: "2025-12-20",
+  },
+];
+
+export const branches: Branch[] = [
+  {
+    id: "b1",
+    storeId: "1",
+    name: "TechHub Downtown",
+    address: "123 Tech Street, Downtown, NY 10001",
+    phone: "+1 (555) 123-4567",
+    email: "downtown@techhub.com",
+    openingHours: {
+      monday: "9:00 AM - 8:00 PM",
+      tuesday: "9:00 AM - 8:00 PM",
+      wednesday: "9:00 AM - 8:00 PM",
+      thursday: "9:00 AM - 8:00 PM",
+      friday: "9:00 AM - 9:00 PM",
+      saturday: "10:00 AM - 9:00 PM",
+      sunday: "10:00 AM - 6:00 PM",
+    },
+  },
+  {
+    id: "b2",
+    storeId: "1",
+    name: "TechHub Mall",
+    address: "456 Shopping Center, Mall Plaza, NY 10002",
+    phone: "+1 (555) 234-5678",
+    email: "mall@techhub.com",
+    openingHours: {
+      monday: "10:00 AM - 9:00 PM",
+      tuesday: "10:00 AM - 9:00 PM",
+      wednesday: "10:00 AM - 9:00 PM",
+      thursday: "10:00 AM - 9:00 PM",
+      friday: "10:00 AM - 10:00 PM",
+      saturday: "10:00 AM - 10:00 PM",
+      sunday: "11:00 AM - 7:00 PM",
+    },
+  },
+  {
+    id: "b3",
+    storeId: "2",
+    name: "Fashion Forward Flagship",
+    address: "789 Fashion Ave, Uptown, NY 10003",
+    phone: "+1 (555) 345-6789",
+    openingHours: {
+      monday: "10:00 AM - 7:00 PM",
+      tuesday: "10:00 AM - 7:00 PM",
+      wednesday: "10:00 AM - 7:00 PM",
+      thursday: "10:00 AM - 7:00 PM",
+      friday: "10:00 AM - 8:00 PM",
+      saturday: "10:00 AM - 8:00 PM",
+      sunday: "11:00 AM - 5:00 PM",
+    },
+  },
+  {
+    id: "b4",
+    storeId: "3",
+    name: "Home & Living Showroom",
+    address: "321 Home Blvd, Suburbs, NY 10004",
+    phone: "+1 (555) 456-7890",
+    email: "showroom@homeliving.com",
+    openingHours: {
+      monday: "9:00 AM - 6:00 PM",
+      tuesday: "9:00 AM - 6:00 PM",
+      wednesday: "9:00 AM - 6:00 PM",
+      thursday: "9:00 AM - 6:00 PM",
+      friday: "9:00 AM - 7:00 PM",
+      saturday: "10:00 AM - 7:00 PM",
+      sunday: "Closed",
+    },
   },
 ];

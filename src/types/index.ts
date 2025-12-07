@@ -44,3 +44,21 @@ export interface Offer {
   discount: number;
   validUntil: string;
 }
+
+export interface Branch {
+  id: string;
+  storeId: string;
+  name: string;
+  address: string;
+  phone: string;
+  email?: string;
+  openingHours: {
+    monday: string;
+    tuesday: string;
+    wednesday: string;
+    thursday: string;
+    friday: string;
+    saturday: string;
+    sunday: string;
+  };
+}

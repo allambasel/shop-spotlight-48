@@ -6,15 +6,16 @@ import ProductCard from "@/components/ProductCard";
 import OfferBanner from "@/components/OfferBanner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { stores, products, offers } from "@/data/mockData";
-import { ExternalLink, Star, Package, ArrowLeft, Clock, Facebook, Instagram, Twitter } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { stores, products, offers, branches } from "@/data/mockData";
+import { ExternalLink, Star, Package, ArrowLeft, Clock, Facebook, Instagram, Twitter, MapPin, Phone, Mail } from "lucide-react";
 
 const StoreProfile = () => {
   const { id } = useParams();
   const store = stores.find((s) => s.id === id);
   const storeProducts = products.filter((p) => p.storeId === id);
   const storeOffers = offers.filter((o) => o.storeId === id);
+  const storeBranches = branches.filter((b) => b.storeId === id);
 
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -167,6 +168,56 @@ const StoreProfile = () => {
               </div>
             </div>
           </div>
+
+          {/* Branches Section */}
+          {storeBranches.length > 0 && (
+            <div className="mb-12">
+              <h2 className="mb-6 text-2xl font-bold">Our Branches</h2>
+              <div className="grid gap-6 md:grid-cols-2">
+                {storeBranches.map((branch) => (
+                  <Card key={branch.id}>
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        <MapPin className="h-5 w-5 text-primary" />
+                        {branch.name}
+                      </CardTitle>
+                      <CardDescription>{branch.address}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="flex flex-wrap gap-4 text-sm">
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                          <Phone className="h-4 w-4" />
+                          {branch.phone}
+                        </div>
+                        {branch.email && (
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Mail className="h-4 w-4" />
+                            {branch.email}
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <Clock className="h-4 w-4 text-primary" />
+                          <span className="text-sm font-medium">Opening Hours</span>
+                        </div>
+                        <div className="grid gap-1 text-sm">
+                          {Object.entries(branch.openingHours).map(([day, hours]) => (
+                            <div key={day} className="flex justify-between">
+                              <span className="capitalize text-muted-foreground">{day}</span>
+                              <span>{hours}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Offers Section */}
           {storeOffers.length > 0 && (
             <div className="mb-12">
