@@ -84,24 +84,26 @@ const Stores = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <section className="border-b bg-card py-12">
+      <section className="border-b bg-card py-8 md:py-12">
         <div className="container mx-auto px-4">
-          <h1 className="mb-3 text-4xl font-bold md:text-5xl">All Stores</h1>
-          <p className="text-lg text-muted-foreground">
+          <h1 className="mb-2 md:mb-3 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">All Stores</h1>
+          <p className="text-sm md:text-lg text-muted-foreground">
             Explore our collection of {stores.length} verified online stores
           </p>
         </div>
       </section>
 
-      <section className="py-8">
+      <section className="py-6 md:py-8">
         <div className="container mx-auto px-4">
-          <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-            <div className="flex flex-wrap gap-2">
+          <div className="mb-6 md:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex flex-wrap gap-2 overflow-x-auto pb-2 sm:pb-0">
               {categories.map((category) => (
                 <Button
                   key={category}
                   variant={selectedCategory === category ? "default" : "outline"}
                   onClick={() => handleCategoryChange(category)}
+                  size="sm"
+                  className="shrink-0"
                 >
                   {category}
                 </Button>
@@ -110,7 +112,7 @@ const Stores = () => {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="gap-2">
+                <Button variant="outline" size="sm" className="gap-2 w-full sm:w-auto">
                   <ArrowUpDown className="h-4 w-4" />
                   {currentSortLabel}
                 </Button>
@@ -130,7 +132,7 @@ const Stores = () => {
             </DropdownMenu>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {filteredAndSortedStores.map((store) => (
               <StoreCard key={store.id} store={store} />
             ))}
