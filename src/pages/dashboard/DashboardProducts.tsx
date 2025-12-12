@@ -139,17 +139,17 @@ const DashboardProducts = () => {
 
   return (
     <DashboardLayout title="Products">
-      <Card>
-        <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <CardTitle>Manage Products</CardTitle>
+      <Card className="overflow-hidden">
+        <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-6">
+          <CardTitle className="text-lg sm:text-2xl">Manage Products</CardTitle>
           <Button className="gap-2 w-full sm:w-auto" onClick={openAddDialog}>
             <Plus className="w-4 h-4" />
             Add Product
           </Button>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4 sm:p-6 pt-0">
           {/* Search */}
-          <div className="relative mb-6">
+          <div className="relative mb-4 sm:mb-6">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
               placeholder="Search products..."
@@ -159,8 +159,8 @@ const DashboardProducts = () => {
             />
           </div>
 
-          {/* Products Table */}
-          <div className="overflow-x-auto -mx-6 px-6">
+          {/* Products - Mobile Cards / Desktop Table */}
+          <div className="hidden sm:block overflow-x-auto">
             <table className="w-full min-w-[600px]">
               <thead>
                 <tr className="border-b border-border">
@@ -205,12 +205,48 @@ const DashboardProducts = () => {
                 ))}
               </tbody>
             </table>
-            {filteredProducts.length === 0 && (
-              <div className="text-center py-12 text-muted-foreground">
-                No products found.
-              </div>
-            )}
           </div>
+
+          {/* Mobile Cards View */}
+          <div className="sm:hidden space-y-3">
+            {filteredProducts.map((product) => (
+              <div key={product.id} className="border border-border rounded-lg p-3">
+                <div className="flex items-start gap-3">
+                  <img 
+                    src={product.images[0] || "https://via.placeholder.com/100"} 
+                    alt={product.name}
+                    className="w-14 h-14 rounded-lg object-cover shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-medium text-foreground truncate">{product.name}</h3>
+                    <p className="text-sm text-muted-foreground">{product.category}</p>
+                    <div className="flex items-center justify-between mt-1">
+                      <span className="text-sm font-semibold text-foreground">${product.price}</span>
+                      <span className={`text-xs ${product.stock > 50 ? "text-green-600" : product.stock > 20 ? "text-yellow-600" : "text-red-600"}`}>
+                        {product.stock} units
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border">
+                  <Button variant="outline" size="sm" className="flex-1 gap-1" onClick={() => openEditDialog(product)}>
+                    <Edit className="w-4 h-4" />
+                    Edit
+                  </Button>
+                  <Button variant="outline" size="sm" className="flex-1 gap-1 text-destructive border-destructive/50 hover:bg-destructive/10" onClick={() => deleteProduct(product.id)}>
+                    <Trash2 className="w-4 h-4" />
+                    Delete
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {filteredProducts.length === 0 && (
+            <div className="text-center py-12 text-muted-foreground">
+              No products found.
+            </div>
+          )}
         </CardContent>
       </Card>
 
