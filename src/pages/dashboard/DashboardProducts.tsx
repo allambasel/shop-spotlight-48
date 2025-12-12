@@ -140,9 +140,9 @@ const DashboardProducts = () => {
   return (
     <DashboardLayout title="Products">
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <CardTitle>Manage Products</CardTitle>
-          <Button className="gap-2" onClick={openAddDialog}>
+          <Button className="gap-2 w-full sm:w-auto" onClick={openAddDialog}>
             <Plus className="w-4 h-4" />
             Add Product
           </Button>
@@ -160,15 +160,15 @@ const DashboardProducts = () => {
           </div>
 
           {/* Products Table */}
-          <div className="overflow-x-auto">
-            <table className="w-full">
+          <div className="overflow-x-auto -mx-6 px-6">
+            <table className="w-full min-w-[600px]">
               <thead>
                 <tr className="border-b border-border">
-                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Product</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Category</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Price</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Stock</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Actions</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground whitespace-nowrap">Product</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground whitespace-nowrap">Category</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground whitespace-nowrap">Price</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground whitespace-nowrap">Stock</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground whitespace-nowrap">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -179,15 +179,15 @@ const DashboardProducts = () => {
                         <img 
                           src={product.images[0] || "https://via.placeholder.com/100"} 
                           alt={product.name}
-                          className="w-10 h-10 rounded-lg object-cover"
+                          className="w-10 h-10 rounded-lg object-cover shrink-0"
                         />
-                        <span className="font-medium text-foreground">{product.name}</span>
+                        <span className="font-medium text-foreground whitespace-nowrap">{product.name}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-sm text-muted-foreground">{product.category}</td>
-                    <td className="py-3 px-4 text-sm font-medium text-foreground">${product.price}</td>
+                    <td className="py-3 px-4 text-sm text-muted-foreground whitespace-nowrap">{product.category}</td>
+                    <td className="py-3 px-4 text-sm font-medium text-foreground whitespace-nowrap">${product.price}</td>
                     <td className="py-3 px-4">
-                      <span className={`text-sm ${product.stock > 50 ? "text-green-600" : product.stock > 20 ? "text-yellow-600" : "text-red-600"}`}>
+                      <span className={`text-sm whitespace-nowrap ${product.stock > 50 ? "text-green-600" : product.stock > 20 ? "text-yellow-600" : "text-red-600"}`}>
                         {product.stock} units
                       </span>
                     </td>
@@ -220,7 +220,7 @@ const DashboardProducts = () => {
             <DialogTitle>{editingProduct ? "Edit Product" : "Add New Product"}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Product Name *</Label>
                 <Input
@@ -248,7 +248,7 @@ const DashboardProducts = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="price">Price ($) *</Label>
                 <Input
