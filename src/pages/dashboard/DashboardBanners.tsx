@@ -120,9 +120,9 @@ const DashboardBanners = () => {
   return (
     <DashboardLayout title="Banners">
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <CardTitle>Promotional Banners</CardTitle>
-          <Button className="gap-2" onClick={openAddDialog}>
+          <Button className="gap-2 w-full sm:w-auto" onClick={openAddDialog}>
             <Plus className="w-4 h-4" />
             Add Banner
           </Button>
@@ -154,7 +154,7 @@ const DashboardBanners = () => {
                       <span>{banner.clicks.toLocaleString()} clicks</span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between mt-4">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-4">
                     <div className="flex items-center gap-2">
                       <Switch 
                         checked={banner.active}
@@ -164,15 +164,15 @@ const DashboardBanners = () => {
                         {banner.active ? "Visible" : "Hidden"}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Button variant="outline" size="sm" className="gap-1" onClick={() => openEditDialog(banner)}>
+                    <div className="flex items-center gap-2 w-full sm:w-auto">
+                      <Button variant="outline" size="sm" className="gap-1 flex-1 sm:flex-none" onClick={() => openEditDialog(banner)}>
                         <Edit className="w-4 h-4" />
                         Edit
                       </Button>
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="gap-1 text-destructive border-destructive/50 hover:bg-destructive/10"
+                        className="gap-1 flex-1 sm:flex-none text-destructive border-destructive/50 hover:bg-destructive/10"
                         onClick={() => deleteBanner(banner.id)}
                       >
                         <Trash2 className="w-4 h-4" />

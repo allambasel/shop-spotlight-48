@@ -72,19 +72,19 @@ const DashboardProfile = () => {
 
   return (
     <DashboardLayout title="Store Profile">
-      <div className="max-w-3xl">
+      <div className="max-w-3xl mx-auto">
         <form onSubmit={handleSubmit}>
           <Card className="mb-6">
             <CardHeader>
               <CardTitle>Store Logo</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center gap-6">
-                <div className="relative">
+              <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                <div className="relative shrink-0">
                   <img 
                     src={profile.logo}
                     alt="Store logo"
-                    className="w-24 h-24 rounded-xl object-cover border-2 border-border"
+                    className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover border-2 border-border"
                   />
                   <button 
                     type="button"
@@ -93,7 +93,7 @@ const DashboardProfile = () => {
                     <Camera className="w-4 h-4" />
                   </button>
                 </div>
-                <div>
+                <div className="text-center sm:text-left">
                   <p className="text-sm text-muted-foreground">
                     Upload a logo for your store. Recommended size: 200x200px.
                   </p>
@@ -187,21 +187,21 @@ const DashboardProfile = () => {
           </Card>
 
           <Card className="mb-6">
-            <CardHeader className="flex flex-row items-center justify-between">
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <CardTitle>Social Media Links</CardTitle>
-              <Button type="button" variant="outline" size="sm" onClick={addSocialMedia} className="gap-1">
+              <Button type="button" variant="outline" size="sm" onClick={addSocialMedia} className="gap-1 w-full sm:w-auto">
                 <Plus className="w-4 h-4" />
                 Add Link
               </Button>
             </CardHeader>
             <CardContent className="space-y-4">
               {socialMedia.map((social, index) => (
-                <div key={index} className="flex items-center gap-3">
+                <div key={index} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                   <Select
                     value={social.platform}
                     onValueChange={(value) => handleSocialMediaChange(index, "platform", value)}
                   >
-                    <SelectTrigger className="w-36">
+                    <SelectTrigger className="w-full sm:w-36">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -214,21 +214,23 @@ const DashboardProfile = () => {
                       <SelectItem value="whatsapp">WhatsApp</SelectItem>
                     </SelectContent>
                   </Select>
-                  <Input
-                    className="flex-1"
-                    placeholder="Enter profile URL"
-                    value={social.url}
-                    onChange={(e) => handleSocialMediaChange(index, "url", e.target.value)}
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="text-destructive hover:bg-destructive/10"
-                    onClick={() => removeSocialMedia(index)}
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
+                  <div className="flex items-center gap-2 flex-1">
+                    <Input
+                      className="flex-1"
+                      placeholder="Enter profile URL"
+                      value={social.url}
+                      onChange={(e) => handleSocialMediaChange(index, "url", e.target.value)}
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="text-destructive hover:bg-destructive/10 shrink-0"
+                      onClick={() => removeSocialMedia(index)}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </div>
               ))}
               {socialMedia.length === 0 && (
@@ -248,9 +250,9 @@ const DashboardProfile = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               {openingHours.map((hours, index) => (
-                <div key={hours.day} className="flex items-center gap-4 py-2 border-b border-border last:border-0">
-                  <div className="w-28 font-medium text-foreground">{hours.day}</div>
-                  <div className="flex items-center gap-2 flex-1">
+                <div key={hours.day} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 py-3 border-b border-border last:border-0">
+                  <div className="w-full sm:w-28 font-medium text-foreground">{hours.day}</div>
+                  <div className="flex items-center justify-between sm:justify-start gap-2 flex-1">
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="checkbox"
@@ -260,6 +262,9 @@ const DashboardProfile = () => {
                       />
                       <span className="text-sm text-muted-foreground">Closed</span>
                     </label>
+                    {hours.closed && (
+                      <div className="text-muted-foreground italic sm:hidden">Closed</div>
+                    )}
                   </div>
                   {!hours.closed && (
                     <div className="flex items-center gap-2">
@@ -267,19 +272,19 @@ const DashboardProfile = () => {
                         type="time"
                         value={hours.open}
                         onChange={(e) => handleOpeningHoursChange(index, "open", e.target.value)}
-                        className="w-32"
+                        className="w-full sm:w-32"
                       />
-                      <span className="text-muted-foreground">to</span>
+                      <span className="text-muted-foreground shrink-0">to</span>
                       <Input
                         type="time"
                         value={hours.close}
                         onChange={(e) => handleOpeningHoursChange(index, "close", e.target.value)}
-                        className="w-32"
+                        className="w-full sm:w-32"
                       />
                     </div>
                   )}
                   {hours.closed && (
-                    <div className="text-muted-foreground italic">Closed</div>
+                    <div className="text-muted-foreground italic hidden sm:block">Closed</div>
                   )}
                 </div>
               ))}
