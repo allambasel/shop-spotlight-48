@@ -15,6 +15,7 @@ import DashboardProducts from "./pages/dashboard/DashboardProducts";
 import DashboardBranches from "./pages/dashboard/DashboardBranches";
 import DashboardBanners from "./pages/dashboard/DashboardBanners";
 import DashboardProfile from "./pages/dashboard/DashboardProfile";
+import DashboardAccount from "./pages/dashboard/DashboardAccount";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -42,6 +43,7 @@ const App = () => (
           <Route path="/dashboard/branches" element={<DashboardBranches />} />
           <Route path="/dashboard/banners" element={<DashboardBanners />} />
           <Route path="/dashboard/profile" element={<DashboardProfile />} />
+          <Route path="/dashboard/account" element={<DashboardAccount />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
