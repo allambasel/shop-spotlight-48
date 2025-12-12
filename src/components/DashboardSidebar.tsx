@@ -1,4 +1,4 @@
-import { LayoutDashboard, Package, Image, User, LogOut, Store, MapPin } from "lucide-react";
+import { LayoutDashboard, Package, Image, User, LogOut, Store, MapPin, UserCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   Sidebar,
@@ -19,7 +19,8 @@ const menuItems = [
   { title: "Products", url: "/dashboard/products", icon: Package },
   { title: "Branches", url: "/dashboard/branches", icon: MapPin },
   { title: "Banners", url: "/dashboard/banners", icon: Image },
-  { title: "Profile", url: "/dashboard/profile", icon: User },
+  { title: "Store Profile", url: "/dashboard/profile", icon: Store },
+  { title: "My Account", url: "/dashboard/account", icon: UserCircle },
 ];
 
 const DashboardSidebar = () => {
