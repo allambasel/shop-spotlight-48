@@ -24,6 +24,16 @@ export interface Store {
   };
 }
 
+export interface ProductVariant {
+  id: string;
+  size?: string;
+  color?: string;
+  price: number;
+  originalPrice?: number;
+  stock: number;
+  sku?: string;
+}
+
 export interface Product {
   id: string;
   storeId: string;
@@ -32,8 +42,11 @@ export interface Product {
   price: number;
   originalPrice?: number;
   image: string;
+  images?: string[];
   category: string;
   inStock: boolean;
+  hasVariants?: boolean;
+  variants?: ProductVariant[];
 }
 
 export interface Offer {

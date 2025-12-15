@@ -1,3 +1,4 @@
+import { useState, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -6,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { stores, products } from "@/data/mockData";
-import { ArrowLeft, ExternalLink, ShoppingCart, Heart, Share2, Package, Shield, Truck } from "lucide-react";
+import { ArrowLeft, ExternalLink, ShoppingCart, Heart, Share2, Package, Shield, Truck, Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -15,6 +17,72 @@ const ProductDetails = () => {
   const relatedProducts = product
     ? products.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4)
     : [];
+
+  // Variant selection state
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+
+  // Get unique sizes and colors from variants
+  const availableSizes = useMemo(() => {
+    if (!product?.hasVariants || !product.variants) return [];
+    const sizes = [...new Set(product.variants.map(v => v.size).filter(Boolean))];
+    return sizes as string[];
+  }, [product]);
+
+  const availableColors = useMemo(() => {
+    if (!product?.hasVariants || !product.variants) return [];
+    const colors = [...new Set(product.variants.map(v => v.color).filter(Boolean))];
+    return colors as string[];
+  }, [product]);
+
+  // Initialize default selections
+  useMemo(() => {
+    if (product?.hasVariants && product.variants?.length) {
+      if (availableSizes.length > 0 && !selectedSize) {
+        setSelectedSize(availableSizes[0]);
+      }
+      if (availableColors.length > 0 && !selectedColor) {
+        setSelectedColor(availableColors[0]);
+      }
+    }
+  }, [product, availableSizes, availableColors]);
+
+  // Find selected variant
+  const selectedVariant = useMemo(() => {
+    if (!product?.hasVariants || !product.variants) return null;
+    
+    return product.variants.find(v => {
+      const sizeMatch = !availableSizes.length || v.size === selectedSize;
+      const colorMatch = !availableColors.length || v.color === selectedColor;
+      return sizeMatch && colorMatch;
+    });
+  }, [product, selectedSize, selectedColor, availableSizes, availableColors]);
+
+  // Get current price and stock
+  const currentPrice = selectedVariant?.price ?? product?.price ?? 0;
+  const currentOriginalPrice = selectedVariant?.originalPrice ?? product?.originalPrice;
+  const currentStock = selectedVariant?.stock ?? (product?.inStock ? 1 : 0);
+  const isInStock = currentStock > 0;
+
+  // Check which sizes are available for selected color
+  const getAvailableSizesForColor = (color: string | null) => {
+    if (!product?.variants) return [];
+    return product.variants
+      .filter(v => !color || v.color === color)
+      .filter(v => v.stock > 0)
+      .map(v => v.size)
+      .filter(Boolean);
+  };
+
+  // Check which colors are available for selected size
+  const getAvailableColorsForSize = (size: string | null) => {
+    if (!product?.variants) return [];
+    return product.variants
+      .filter(v => !size || v.size === size)
+      .filter(v => v.stock > 0)
+      .map(v => v.color)
+      .filter(Boolean);
+  };
 
   if (!product || !store) {
     return (
@@ -31,9 +99,9 @@ const ProductDetails = () => {
     );
   }
 
-  const hasDiscount = product.originalPrice && product.originalPrice > product.price;
+  const hasDiscount = currentOriginalPrice && currentOriginalPrice > currentPrice;
   const discountPercent = hasDiscount
-    ? Math.round(((product.originalPrice! - product.price) / product.originalPrice!) * 100)
+    ? Math.round(((currentOriginalPrice! - currentPrice) / currentOriginalPrice!) * 100)
     : 0;
 
   return (
@@ -64,7 +132,7 @@ const ProductDetails = () => {
                     -{discountPercent}%
                   </Badge>
                 )}
-                {!product.inStock && (
+                {!isInStock && (
                   <div className="absolute inset-0 flex items-center justify-center bg-black/60">
                     <Badge variant="destructive" className="text-sm md:text-lg">
                       Out of Stock
@@ -96,18 +164,112 @@ const ProductDetails = () => {
 
               {/* Price */}
               <div className="mb-6 md:mb-8 flex flex-wrap items-baseline gap-2 md:gap-3 border-y py-4 md:py-6">
-                <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary">${product.price}</span>
+                <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary">${currentPrice}</span>
                 {hasDiscount && (
                   <>
                     <span className="text-lg md:text-2xl text-muted-foreground line-through">
-                      ${product.originalPrice}
+                      ${currentOriginalPrice}
                     </span>
                     <Badge variant="secondary" className="text-xs md:text-base">
-                      Save ${product.originalPrice! - product.price}
+                      Save ${currentOriginalPrice! - currentPrice}
                     </Badge>
                   </>
                 )}
+                {product.hasVariants && selectedVariant && (
+                  <span className="w-full text-sm text-muted-foreground mt-1">
+                    {currentStock > 0 ? `${currentStock} in stock` : "Out of stock"}
+                  </span>
+                )}
               </div>
+
+              {/* Variant Selection */}
+              {product.hasVariants && product.variants && product.variants.length > 0 && (
+                <div className="mb-6 md:mb-8 space-y-4">
+                  {/* Size Selection */}
+                  {availableSizes.length > 0 && (
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium">
+                        Size: <span className="text-muted-foreground">{selectedSize}</span>
+                      </Label>
+                      <div className="flex flex-wrap gap-2">
+                        {availableSizes.map((size) => {
+                          const isAvailable = getAvailableColorsForSize(size).length > 0 || 
+                            (availableColors.length === 0 && product.variants?.some(v => v.size === size && v.stock > 0));
+                          return (
+                            <button
+                              key={size}
+                              onClick={() => setSelectedSize(size)}
+                              disabled={!isAvailable}
+                              className={cn(
+                                "px-4 py-2 text-sm font-medium border rounded-lg transition-all",
+                                selectedSize === size
+                                  ? "border-primary bg-primary text-primary-foreground"
+                                  : isAvailable
+                                    ? "border-border hover:border-primary bg-background"
+                                    : "border-border/50 bg-muted text-muted-foreground cursor-not-allowed line-through"
+                              )}
+                            >
+                              {size}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Color Selection */}
+                  {availableColors.length > 0 && (
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium">
+                        Color: <span className="text-muted-foreground">{selectedColor}</span>
+                      </Label>
+                      <div className="flex flex-wrap gap-2">
+                        {availableColors.map((color) => {
+                          const isAvailable = getAvailableSizesForColor(color).length > 0 ||
+                            (availableSizes.length === 0 && product.variants?.some(v => v.color === color && v.stock > 0));
+                          const colorLower = color.toLowerCase().replace(/\s+/g, '');
+                          const colorMap: Record<string, string> = {
+                            'black': '#000000',
+                            'white': '#ffffff',
+                            'navyblue': '#001f3f',
+                            'midnightblack': '#191970',
+                            'silver': '#c0c0c0',
+                            'gold': '#ffd700',
+                            'brown': '#8b4513',
+                            'blue': '#0066cc',
+                          };
+                          const bgColor = colorMap[colorLower] || colorLower;
+                          
+                          return (
+                            <button
+                              key={color}
+                              onClick={() => setSelectedColor(color)}
+                              disabled={!isAvailable}
+                              className={cn(
+                                "relative w-10 h-10 rounded-full border-2 transition-all flex items-center justify-center",
+                                selectedColor === color
+                                  ? "border-primary ring-2 ring-primary ring-offset-2"
+                                  : isAvailable
+                                    ? "border-border hover:border-primary"
+                                    : "border-border/50 opacity-40 cursor-not-allowed"
+                              )}
+                              style={{ backgroundColor: bgColor }}
+                              title={color}
+                            >
+                              {selectedColor === color && (
+                                <Check className={cn(
+                                  "h-5 w-5",
+                                  ['white', 'silver', 'gold'].includes(colorLower) ? "text-black" : "text-white"
+                                )} />
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Store Info */}
               <Card className="mb-4 md:mb-6">
@@ -129,9 +291,9 @@ const ProductDetails = () => {
 
               {/* Action Buttons */}
               <div className="mb-6 md:mb-8 flex flex-col sm:flex-row gap-2 md:gap-3">
-                <Button size="lg" className="flex-1" disabled={!product.inStock}>
+                <Button size="lg" className="flex-1" disabled={!isInStock}>
                   <ShoppingCart className="mr-2 h-4 w-4 md:h-5 md:w-5" />
-                  {product.inStock ? "Add to Cart" : "Out of Stock"}
+                  {isInStock ? "Add to Cart" : "Out of Stock"}
                 </Button>
                 <Button size="lg" variant="outline" asChild className="flex-1 sm:flex-none">
                   <a href={store.url} target="_blank" rel="noopener noreferrer">
@@ -194,5 +356,10 @@ const ProductDetails = () => {
     </div>
   );
 };
+
+// Label component for variant sections
+const Label = ({ children, className }: { children: React.ReactNode; className?: string }) => (
+  <div className={cn("text-sm font-medium", className)}>{children}</div>
+);
 
 export default ProductDetails;
