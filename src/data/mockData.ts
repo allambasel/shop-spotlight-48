@@ -88,6 +88,12 @@ export const products: Product[] = [
     image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
     category: "Audio",
     inStock: true,
+    hasVariants: true,
+    variants: [
+      { id: "v1", color: "Black", price: 299, originalPrice: 399, stock: 25 },
+      { id: "v2", color: "White", price: 299, originalPrice: 399, stock: 18 },
+      { id: "v3", color: "Navy Blue", price: 319, originalPrice: 419, stock: 12 },
+    ],
   },
   {
     id: "p2",
@@ -98,6 +104,14 @@ export const products: Product[] = [
     image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
     category: "Wearables",
     inStock: true,
+    hasVariants: true,
+    variants: [
+      { id: "v4", size: "40mm", color: "Midnight Black", price: 449, stock: 20 },
+      { id: "v5", size: "40mm", color: "Silver", price: 449, stock: 15 },
+      { id: "v6", size: "44mm", color: "Midnight Black", price: 499, stock: 10 },
+      { id: "v7", size: "44mm", color: "Silver", price: 499, stock: 8 },
+      { id: "v8", size: "44mm", color: "Gold", price: 549, stock: 5 },
+    ],
   },
   {
     id: "p3",
@@ -119,6 +133,16 @@ export const products: Product[] = [
     image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=400&fit=crop",
     category: "Outerwear",
     inStock: true,
+    hasVariants: true,
+    variants: [
+      { id: "v9", size: "S", color: "Black", price: 599, originalPrice: 799, stock: 8 },
+      { id: "v10", size: "M", color: "Black", price: 599, originalPrice: 799, stock: 12 },
+      { id: "v11", size: "L", color: "Black", price: 599, originalPrice: 799, stock: 10 },
+      { id: "v12", size: "XL", color: "Black", price: 599, originalPrice: 799, stock: 5 },
+      { id: "v13", size: "S", color: "Brown", price: 649, originalPrice: 849, stock: 6 },
+      { id: "v14", size: "M", color: "Brown", price: 649, originalPrice: 849, stock: 9 },
+      { id: "v15", size: "L", color: "Brown", price: 649, originalPrice: 849, stock: 7 },
+    ],
   },
   {
     id: "p5",
@@ -129,6 +153,15 @@ export const products: Product[] = [
     image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop",
     category: "Bottoms",
     inStock: true,
+    hasVariants: true,
+    variants: [
+      { id: "v16", size: "28", color: "Blue", price: 89, stock: 15 },
+      { id: "v17", size: "30", color: "Blue", price: 89, stock: 20 },
+      { id: "v18", size: "32", color: "Blue", price: 89, stock: 25 },
+      { id: "v19", size: "34", color: "Blue", price: 89, stock: 18 },
+      { id: "v20", size: "30", color: "Black", price: 89, stock: 12 },
+      { id: "v21", size: "32", color: "Black", price: 89, stock: 14 },
+    ],
   },
   {
     id: "p6",
